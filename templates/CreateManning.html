@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'bootstraphead.html' %}
+    <meta charset="UTF-8">
+    <title>Create Manning</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    {% include 'navbar.html' %}
+<div class="container" id="MainContainer">
+    <div class="row">
+        <div class="col-3">
+
+        </div>
+        <div class="col-6">
+            <p class="display-6" id="ContainerHeader">Create Manning</p>
+            <form>
+                  <div class="mb-3">
+                    <label for="Name" class="form-label">Name of Manning</label>
+                    <input type="text" class="form-control" id="Name" required>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="StartDate" class="form-label">Start Date</label>
+                    <input type="text" class="form-control" id="StartDate" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="StartTime" class="form-label">Start Time</label>
+                    <input type="number" class="form-control" id="StartTime" required placeholder="1200" aria-describedby="StartTimeHelp">
+                      <div id="StartTimeHelp" class="form-text">Use 24hr format without : (eg:1200)</div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="EndDate" class="form-label">End Date</label>
+                    <input type="text" class="form-control" id="EndDate" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="EndTime" class="form-label">End Time</label>
+                    <input type="number" class="form-control" id="EndTime" required placeholder="1200" aria-describedby="StartTimeHelp">
+                      <div id="EndTimeHelp" class="form-text">Use 24hr format without : (eg:1200)</div>
+                  </div>
+
+
+                  <div class="mb-3">
+                    <button type="submit" class="btn btn-primary mb-3">Create Manning</button>
+                  </div>
+
+            </form>
+
+        </div>
+        <div class="col-3">
+
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

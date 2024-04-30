@@ -1,0 +1,19 @@
+#MainContainer{
+margin-top:70px}
+
+#ContainerHeader{
+text-align:center}
+
+#switchlabel{
+font-size:1rem;
+font-weight:500;
+}
+
+#dutypostbuttontd{
+width: 20%;
+min-width: 100px;
+}
+#dutypostnumberingtd{
+width: 10%;
+
+}
