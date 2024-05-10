@@ -1,3 +1,6 @@
+ @media screen and (max-width: 1000px){*{
+font-size:1.5rem}}
+
 #MainContainer{
 margin-top:70px}
 
@@ -15,5 +18,12 @@ min-width: 100px;
 }
 #dutypostnumberingtd{
 width: 10%;
+}
 
+
+.tableicons{
+    height: 20px;
+    width: 20px;
+    display: block;
+    /* Other styles here */
 }

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'bootstraphead.html' %}
+    <meta charset="UTF-8">
+    <title>Add User</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    {% include 'navbar.html' %}
+<div class="container-fluid" id="MainContainer">
+    <div class="row">
+        <div class="col-0 col-md-2">
+
+        </div>
+        <div class="col-12 col-md-8">
+                <p class="display-6" id="ContainerHeader">Manage Restriction</p>
+
+            <form method="POST" action="">
+                  <div class="mb-3">
+                    <label for="RestrictionName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="RestrictionName" name="RestrictionName" required>
+                  </div>
+                  <div class="mb-3 input-group">
+<!--                    <p style="font-size:1rem;margin-bottom:0;margin-top:6px">User cannot stand from </p>&nbsp-->
+                    <p style="font-size:1rem;margin-bottom:0;margin-top:6px">User&nbsp</p>
+                      <select class="form-select" aria-label="Default select example" name="inverse">
+                        <option selected value="0">Cannot</option>
+                        <option value="1">Can only</option>
+                      </select>
+                    <p style="font-size:1rem;margin-bottom:0;margin-top:6px">&nbsp stand from&nbsp</p>
+                    <input type="number" class="form-control" id="Restriction1-1" name="Restriction1-1" required>
+                    <p style="font-size:1rem;margin-bottom:0;margin-top:6px">&nbspTo&nbsp</p>
+                    <input type="number" class="form-control" id="Restriction1-2" name="Restriction1-2" required>
+                    <p style="font-size:1rem;margin-bottom:0;margin-top:6px">&nbspOn these days</p>
+
+
+                  </div>
+
+                  <div class="mb-3">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Regular Day</th>
+                          <th scope="col">Mounting Day</th>
+                          <th scope="col">Dismount Day</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Mondayreg" name="dayMondayreg" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Mondayreg">Monday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Mondaymou" name="dayMondaymou" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Mondaymou">Monday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Mondaydis" name="dayMondaydis" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Mondaydis">Monday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Tuesdayreg" name="dayTuesdayreg" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Tuesdayreg">Tuesday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Tuesdaymou" name="dayTuesdaymou" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Tuesdaymou">Tuesday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Tuesdaydis" name="dayTuesdaydis" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Tuesdaydis">Tuesday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Wednesdayreg" name="dayWednesdayreg" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Wednesdayreg">Wednesday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Wednesdaymou" name="dayWednesdaymou" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Wednesdaymou">Wednesday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Wednesdaydis" name="dayWednesdaydis" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Wednesdaydis">Wednesday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Thursdayreg" name="dayThursdayreg" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Thursdayreg">Thursday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Thursdaymou" name="dayThursdaymou" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Thursdaymou">Thursday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Thursdaydis" name="dayThursdaydis" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Thursdaydis">Thursday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Fridayreg" name="dayFridayreg" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Fridayreg">Friday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Fridaymou" name="dayFridaymou" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Fridaymou">Friday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Fridaydis" name="dayFridaydis" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Fridaydis">Friday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Saturdayreg" name="daySaturdayreg" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Saturdayreg">Saturday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Saturdaymou" name="daySaturdaymou" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Saturdaymou">Saturday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Saturdaydis" name="daySaturdaydis" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Saturdaydis">Saturday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Sundayreg" name="daySundayreg" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Sundayreg">Sunday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Sundaymou" name="daySundaymou" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Sundaymou">Sunday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Sundaydis" name="daySundaydis" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="Sundaydis">Sunday</label>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="mb-3">
+                      <p>At these Duty Posts</p>
+                      {% for dutypost in DutyPosts %}
+                        <input type="checkbox" class="btn-check" id="DP{{dutypost}}" autocomplete="off" name="DP{{dutypost}}">
+                        <label class="btn btn-outline-primary" for="DP{{dutypost}}" >{{dutypost}}</label>
+                      {% endfor %}
+                  </div>
+                  <div class="mb-3">
+                    <button type="submit" class="btn btn-primary mb-3">Create New Restriction</button>
+                  </div>
+
+            </form>
+
+            <table class="table m-0">
+                <thead>
+                    <tr>
+                        <th scope="col" id="dutypostnumberingtd">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col" id="dutypostbuttontd"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for name in restrictions %}
+                    <tr>
+                        <th scope="row">{{loop.index}}</th>
+                        <td>{{name}}</td>
+                        <td>
+                            <!-- Call to action buttons -->
+                            <ul class="list-inline m-0">
+                                <li class="list-inline-item">
+                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" data-bs-toggle="modal" data-bs-target="#exampleModal{{name}}"><img class="tableicons" src="{{url_for('static',filename='icons/eye.png') }}"></button>
+                                </li>
+                                <div class="modal fade" id="exampleModal{{name}}" tabindex="-1" aria-labelledby="exampleModalLabel{{name}}" aria-hidden="true">
+                                  <div class="modal-dialog modal-fullscreen-lg-down">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel{{name}}">Edit Restriction</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <form method="POST" action="/EditRestrictions">
+                                      <div class="modal-body">
+
+                    <div class="mb-3">
+                    <label for="RestrictionName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="NewRestrictionName" name="NewRestrictionName" value="{{name}}"required>
+                    <input type="text" class="form-control" id="OldRestrictionName" name="OldRestrictionName"  value="{{name}}" style="display:none" required>
+
+                  </div>
+                  <div class="mb-3 input-group">
+<!--                    <p style="font-size:1rem;margin-bottom:0;margin-top:6px">User cannot stand from </p>&nbsp-->
+                    <p style="font-size:1rem;margin-bottom:0;margin-top:6px">User&nbsp</p>
+                      <select class="form-select" aria-label="Default select example" name="inverse">
+                        <option value="0" {% if  restrictions[name]['inverse']=='0' %} selected {% endif %} >Cannot</option>
+                        <option value="1" {% if  restrictions[name]['inverse']=='1' %} selected {% endif %} >Can only</option>
+                      </select>
+                    <p style="font-size:1rem;margin-bottom:0;margin-top:6px">&nbsp stand from&nbsp</p>
+                    <input type="number" class="form-control" id="Restriction1-1" name="Restriction1-1" value="{{restrictions[name]['FromTime']}}" required>
+                    <p style="font-size:1rem;margin-bottom:0;margin-top:6px">&nbspTo&nbsp</p>
+                    <input type="number" class="form-control" id="Restriction1-2" name="Restriction1-2" value="{{restrictions[name]['ToTime']}}" required>
+                    <p style="font-size:1rem;margin-bottom:0;margin-top:6px">&nbspOn these days</p>
+
+
+                  </div>
+
+                  <div class="mb-3">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Regular Day</th>
+                          <th scope="col">Mounting Day</th>
+                          <th scope="col">Dismount Day</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Mondayreg{{name}}" name="dayMondayreg" autocomplete="off" {% if "dayMondayreg" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Mondayreg{{name}}">Monday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Mondaymou{{name}}" name="dayMondaymou" autocomplete="off"{% if "dayMondaymou" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Mondaymou{{name}}">Monday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Mondaydis{{name}}" name="dayMondaydis" autocomplete="off"{% if "dayMondaydis" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Mondaydis{{name}}">Monday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Tuesdayreg{{name}}" name="dayTuesdayreg" autocomplete="off"{% if "dayTuesdayreg" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Tuesdayreg{{name}}">Tuesday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Tuesdaymou{{name}}" name="dayTuesdaymou" autocomplete="off"{% if "dayTuesdaymou" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Tuesdaymou{{name}}">Tuesday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Tuesdaydis{{name}}" name="dayTuesdaydis" autocomplete="off"{% if "dayTuesdaydis" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Tuesdaydis{{name}}">Tuesday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Wednesdayreg{{name}}" name="dayWednesdayreg" autocomplete="off"{% if "dayWednesdayreg" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Wednesdayreg{{name}}">Wednesday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Wednesdaymou{{name}}" name="dayWednesdaymou" autocomplete="off"{% if "dayWednesdaymou" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Wednesdaymou{{name}}">Wednesday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Wednesdaydis{{name}}" name="dayWednesdaydis" autocomplete="off"{% if "dayWednesdaydis" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Wednesdaydis{{name}}">Wednesday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Thursdayreg{{name}}" name="dayThursdayreg" autocomplete="off"{% if "dayThursdayreg" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Thursdayreg{{name}}">Thursday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Thursdaymou{{name}}" name="dayThursdaymou" autocomplete="off"{% if "dayThursdaymou" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Thursdaymou{{name}}">Thursday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Thursdaydis{{name}}" name="dayThursdaydis" autocomplete="off"{% if "dayThursdaydis" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Thursdaydis{{name}}">Thursday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Fridayreg{{name}}" name="dayFridayreg" autocomplete="off"{% if "dayFridayreg" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Fridayreg{{name}}">Friday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Fridaymou{{name}}" name="dayFridaymou" autocomplete="off"{% if "dayFridaymou" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Fridaymou{{name}}">Friday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Fridaydis{{name}}" name="dayFridaydis" autocomplete="off"{% if "dayFridaydis" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Fridaydis{{name}}">Friday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Saturdayreg{{name}}" name="daySaturdayreg" autocomplete="off"{% if "daySaturdayreg" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Saturdayreg{{name}}">Saturday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Saturdaymou{{name}}" name="daySaturdaymou" autocomplete="off"{% if "daySaturdaymou" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Saturdaymou{{name}}">Saturday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Saturdaydis{{name}}" name="daySaturdaydis" autocomplete="off"{% if "daySaturdaydis" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Saturdaydis{{name}}">Saturday</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Sundayreg{{name}}" name="daySundayreg" autocomplete="off"{% if "daySundayreg" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Sundayreg{{name}}">Sunday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Sundaymou{{name}}" name="daySundaymou" autocomplete="off"{% if "daySundaymou" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Sundaymou{{name}}">Sunday</label>
+                          </td>
+                          <td>
+                            <input type="checkbox" class="btn-check" id="Sundaydis{{name}}" name="daySundaydis" autocomplete="off"{% if "daySundaydis" in restrictions[name]['daysaffected'] %} checked {% endif %}>
+                            <label class="btn btn-outline-primary" for="Sundaydis{{name}}">Sunday</label>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="mb-3">
+                      <p>At these Duty Posts</p>
+                      {% for dutypost in DutyPosts %}
+                        <input type="checkbox" class="btn-check" id="DP{{dutypost}}{{name}}" autocomplete="off" name="DP{{dutypost}}" {% if ("DP"+dutypost) in restrictions[name]['dutypostsaffected'] %} checked {% endif %}>
+                        <label class="btn btn-outline-primary" for="DP{{dutypost}}{{name}}" >{{dutypost}}</label>
+                      {% endfor %}
+                  </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                      </div>
+                                        </form>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <li class="list-inline-item">
+                                    <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><img class="tableicons"  src="{{url_for('static',filename='icons/dustbin.png') }}"></button>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-0 col-md-2">
+
+        </div>
+
+    </div>
+</div>
+<a href="https://www.flaticon.com/free-icons/dustbin" title="dustbin icons">Dustbin icons created by Mayor Icons - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/eye" title="eye icons">Eye icons created by Gregor Cresnar - Flaticon</a>
+</body>
+</html>

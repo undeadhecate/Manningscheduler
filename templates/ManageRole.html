@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'bootstraphead.html' %}
+    <meta charset="UTF-8">
+    <title>Add User</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    {% include 'navbar.html' %}
+<div class="container" id="MainContainer">
+    <div class="row">
+        <div class="col-1 col-md-2">
+
+        </div>
+        <div class="col-10 col-md-8">
+                <p class="display-6" id="ContainerHeader">Manage Role</p>
+
+            <form method="POST" action="">
+                  <div class="mb-3">
+                    <label for="RoleName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="RoleName" name="RoleName" required>
+                  </div>
+                  <div class="mb-3">
+                    <p class="display-6" id="switchlabel">User Restrictions</p>
+                    {% for key in RestrictionsAvailable %}
+
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="{{RestrictionsAvailable[key]}}" name="{{RestrictionsAvailable[key]}}">
+                      <label class="form-check-label" for="{{RestrictionsAvailable[key]}}">{{key}}</label>
+                    </div>
+                      {% endfor %}
+
+
+                  </div>
+                  <div class="mb-3">
+                    <button type="submit" class="btn btn-primary mb-3">Add New Role</button>
+                  </div>
+
+            </form>
+
+            <table class="table m-0">
+                <thead>
+                    <tr>
+                        <th scope="col" id="dutypostnumberingtd">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col" id="dutypostbuttontd"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for key, value in roles.items() %}
+                    <tr>
+                        <th scope="row">{{loop.index}}</th>
+                        <td>{{key}}</td>
+                        <td>
+                            <!-- Call to action buttons -->
+                            <ul class="list-inline m-0">
+                                <li class="list-inline-item">
+                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" data-bs-toggle="modal" data-bs-target="#exampleModal{{key}}"><img class="tableicons" src="{{url_for('static',filename='icons/eye.png') }}"></button>
+                                </li>
+                                <div class="modal fade" id="exampleModal{{key}}" tabindex="-1" aria-labelledby="exampleModalLabel{{key}}" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel{{key}}">Edit Role</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <form method="POST" action="/EditRoles">
+                                      <div class="modal-body">
+
+                                              <div class="mb-3">
+                                                <label for="RoleName" class="form-label">Name</label>
+                                                <input type="text" class="form-control" id="OldRoleName" name="OldRoleName" value="{{key}}" style="display:none" required>
+                                                <input type="text" class="form-control" id="RoleName" name="RoleName" value="{{key}}" required>
+
+                                              </div>
+
+                                              <div class="mb-3">
+                                                <p class="display-6" id="switchlabel">User Restrictions</p>
+                                                    {% for key in RestrictionsAvailable %}
+
+                                                    <div class="form-check form-switch">
+                                                      <input class="form-check-input" type="checkbox" role="switch" id="{{RestrictionsAvailable[key]}}" name="{{RestrictionsAvailable[key]}}"  {% if RestrictionsAvailable[key]|string in value %} checked {% endif %}>
+                                                      <label class="form-check-label" for="{{RestrictionsAvailable[key]}}">{{key}}</label>
+                                                    </div>
+                                                      {% endfor %}
+
+                                              </div>
+
+
+
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                      </div>
+                                        </form>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <li class="list-inline-item">
+                                    <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><img class="tableicons"  src="{{url_for('static',filename='icons/dustbin.png') }}"></button>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-1 col-md-2">
+
+        </div>
+
+    </div>
+</div>
+<a href="https://www.flaticon.com/free-icons/dustbin" title="dustbin icons">Dustbin icons created by Mayor Icons - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/eye" title="eye icons">Eye icons created by Gregor Cresnar - Flaticon</a>
+</body>
+</html>

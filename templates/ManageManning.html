@@ -26,9 +26,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                {% for key in manningdata %}
+
                     <tr>
-                        <th scope="row">1</th>
-                        <td>1/5 1200 - 3/5 1200</td>
+                        <th scope="row">{{loop.index}}</th>
+                        <td>{{key}}</td>
                         <td>
                             <!-- Call to action buttons -->
                             <ul class="list-inline m-0">
@@ -41,6 +43,7 @@
                             </ul>
                         </td>
                     </tr>
+                {% endfor %}
 
                 </tbody>
             </table>
