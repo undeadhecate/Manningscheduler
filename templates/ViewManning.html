@@ -6,187 +6,395 @@
     <title>Create Manning</title>
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    {% include 'navbar.html' %}
-    {{data}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+{% include 'navbar.html' %}
+{{data}}
 <div class="container-fluid" id="MainContainer">
-    <div class="row">
-<!--        <div class="col-3">-->
 
-<!--        </div>-->
-        <div class="col-6" style="  position: -webkit-sticky; /* Safari */
+    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                    type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Manage Duties
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                    type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Assign Troopers
+            </button>
+        </li>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                 tabindex="0">
+                <div class="row">
+
+                    <div class="col-6" style="  position: -webkit-sticky; /* Safari */
   position: sticky; top:0; background:white">
-            <p class="display-6" id="ContainerHeader">{{data['name']}}</p>
-            <p class="display-6" id="ContainerHeader">Start: {{data['StartDate']}} {{data['StartTime']}}</p>
-            <p class="display-6" id="ContainerHeader">End: {{data['EndDate']}} {{data['EndTime']}}</p>
-        </div>
-        <div class="col-6 " style="  position: -webkit-sticky; /* Safari */
+                        <p class="display-6" id="ContainerHeader">{{data['name']}}</p>
+                        <p class="display-6" id="ContainerHeader">Start: {{data['StartDate']}} {{data['StartTime']}}</p>
+                        <p class="display-6" id="ContainerHeader">End: {{data['EndDate']}} {{data['EndTime']}}</p>
+                    </div>
+                    <div class="col-6 " style="  position: -webkit-sticky; /* Safari */
   position: sticky; top:0; background:white">
-            <form action="" method="post" class="row g-3" target="frame">
+                        <form action="" method="post" class="row g-3" target="frame">
 
-                  <div class="col mb-3">
-                    <label for="UserRole" class="form-label">User Role</label>
-                    <select class="form-select" aria-label="UserRole" id="UserRole" onchange="myFunction('main',0)" name="DP" required>
-                        {% for i in dutypostsnames %}
-                        <option value="{{i}}" >{{i}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="form-text">To create a new role click on this link</div>
-                  </div>
+                            <div class="col mb-3">
+                                <label for="UserRole" class="form-label">User Role</label>
+                                <select class="form-select" aria-label="UserRole" id="UserRole"
+                                        onchange="myFunction('main',0)" name="DP" required>
+                                    {% for i in dutypostsnames %}
+                                    <option value="{{i}}">{{i}}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-text">To create a new role click on this link</div>
+                            </div>
 
-                  <div class="col mb-3">
-                    <label for="StartDate" class="form-label">Start Date</label>
-                    <input type="text" class="form-control" id="StartDate" name="StartDate"required>
-                  </div>
-                  <div class="col mb-3">
-                    <label for="StartTime" class="form-label">Start Time</label>
-                    <input type="number" class="form-control" id="StartTime" required placeholder="1200" aria-describedby="StartTimeHelp" name="StartTime">
-                      <div id="StartTimeHelp" class="form-text">Use 24hr format without : (eg:1200)</div>
-                  </div>
-                  <div class="col mb-3">
-                    <label for="EndDate" class="form-label">End Date</label>
-                    <input type="text" class="form-control" id="EndDate" name="EndDate" required>
-                  </div>
-                  <div class="col mb-3">
-                    <label for="EndTime" class="form-label">End Time</label>
-                    <input type="number" class="form-control" id="EndTime" required placeholder="1200" aria-describedby="StartTimeHelp" name="EndTime" max="2359">
-                      <div id="EndTimeHelp" class="form-text">Use 24hr format without : (eg:1200)</div>
-                  </div>
+                            <div class="col mb-3">
+                                <label for="StartDate" class="form-label">Start Date</label>
+                                <input type="text" class="form-control" id="StartDate" name="StartDate" required>
+                            </div>
+                            <div class="col mb-3">
+                                <label for="StartTime" class="form-label">Start Time</label>
+                                <input type="number" class="form-control" id="StartTime" required placeholder="1200"
+                                       aria-describedby="StartTimeHelp" name="StartTime">
+                                <div id="StartTimeHelp" class="form-text">Use 24hr format without : (eg:1200)</div>
+                            </div>
+                            <div class="col mb-3">
+                                <label for="EndDate" class="form-label">End Date</label>
+                                <input type="text" class="form-control" id="EndDate" name="EndDate" required>
+                            </div>
+                            <div class="col mb-3">
+                                <label for="EndTime" class="form-label">End Time</label>
+                                <input type="number" class="form-control" id="EndTime" required placeholder="1200"
+                                       aria-describedby="StartTimeHelp" name="EndTime" max="2359">
+                                <div id="EndTimeHelp" class="form-text">Use 24hr format without : (eg:1200)</div>
+                            </div>
 
-              <div class="mb-3">
-                    <button type="submit" class="btn btn-primary mb-3">Add Duty</button>
-                  </div>
-            </form>
-        </div>
-        <div class="col-12">
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary mb-3">Add Duty</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12">
 
-            <table class="table table-bordered">
-                <thead style="  position: sticky;
+                        <table class="table table-bordered">
+                            <thead style="  position: sticky;
   top: 210px;
   background-color: hsl(0, 0%, 100%);">
-                    <tr>
-                      <th scope="col" style="">Time</th>
-                        {{dutypostnames}}
-                    {% for i in dutypostsnames %}
-                      <th scope="col">{{i}}</th>
-                    {% endfor %}
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for k in timestamps %}
-                    <tr>
-                      <th scope="row">{{k}}</th>
-                      {% for i in dutypostsnames %}
-                        {% if i in timestamps[k].keys() %}
-                      <td rowspan="{{timestamps[k][i][0]}}" class="table-info"  align="center"style="vertical-align: middle;" >{{i}}
-                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{timestamps[k][i][1]}}">
-                              {{timestamps[k]}}{{k}}
-                          Launch demo modal
-                        </button>
-                      </td>
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal{{timestamps[k][i][1]}}" tabindex="-1" aria-labelledby="exampleModalLabel{{timestamps[k][i][1]}}" aria-hidden="true">
-                              <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel{{timestamps[k][i][1]}}">Edit Chunk</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                  </div>
-                                  <div class="modal-body">
-                                      <form>
-                                        <div class="col mb-3">
-                                            <label for="StartDate" class="form-label">Start Date</label>
-                                            <input type="text" class="form-control" id="StartDate" name="StartDate" value="{{timestamps[k][i][2]}}" required>
-                                          </div>
-                                          <div class="col mb-3">
-                                            <label for="StartTime" class="form-label">Start Time</label>
-                                            <input type="number" class="form-control" value="{{timestamps[k][i][3]}}" id="StartTime" required placeholder="1200" aria-describedby="StartTimeHelp" name="StartTime">
-                                              <div id="StartTimeHelp" class="form-text">Use 24hr format without : (eg:1200)</div>
-                                          </div>
-                                          <div class="col mb-3">
-                                            <label for="EndDate" class="form-label">End Date</label>
-                                            <input type="text" class="form-control" id="EndDate" name="EndDate" value="{{timestamps[k][i][4]}}" required>
-                                          </div>
-                                          <div class="col mb-3">
-                                            <label for="EndTime" class="form-label">End Time</label>
-                                            <input type="number" class="form-control" id="EndTime" required placeholder="1200"  value="{{timestamps[k][i][5]}}" aria-describedby="StartTimeHelp" name="EndTime" max="2359">
-                                              <div id="EndTimeHelp" class="form-text">Use 24hr format without : (eg:1200)</div>
-                                          </div>
-                                      </form>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                  </div>
-                                </div>
-                              </div>
+                            <tr>
+                                <th scope="col" style="">Time</th>
+                                {{dutypostnames}}
+                                {% for i in dutypostsnames %}
+                                <th scope="col">{{i}}</th>
+                                {% endfor %}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for k in timestamps %}
+                            <tr>
+                                <th scope="row">{{k}}</th>
+                                {% for i in dutypostsnames %}
+                                {% if i in timestamps[k].keys() %}
+                                <td rowspan="{{timestamps[k][i][0]}}" class="table-info" align="center"
+                                    style="vertical-align: middle;">{{i}}
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal{{timestamps[k][i][1]}}">
+                                        {{timestamps[k]}}{{k}}
+                                        Launch demo modal
+                                    </button>
+                                </td>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal{{timestamps[k][i][1]}}" tabindex="-1"
+                                     aria-labelledby="exampleModalLabel{{timestamps[k][i][1]}}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5"
+                                                    id="exampleModalLabel{{timestamps[k][i][1]}}">Edit Chunk</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <form method="post" action="/UpdateChunk/{{id}}">
+
+                                                <div class="modal-body">
+                                                    <input type="text" class="form-control" id="ChunkId" name="ChunkId"
+                                                           value="{{timestamps[k][i][1]}}" required>
+
+                                                    <div class="col mb-3">
+                                                        <label for="StartDate" class="form-label">Start Date</label>
+                                                        <input type="text" class="form-control" id="StartDate"
+                                                               name="StartDate" value="{{timestamps[k][i][2]}}"
+                                                               required>
+                                                    </div>
+                                                    <div class="col mb-3">
+                                                        <label for="StartTime" class="form-label">Start Time</label>
+                                                        <input type="number" class="form-control"
+                                                               value="{{timestamps[k][i][3]}}" id="StartTime" required
+                                                               placeholder="1200" aria-describedby="StartTimeHelp"
+                                                               name="StartTime">
+                                                        <div id="StartTimeHelp" class="form-text">Use 24hr format
+                                                            without : (eg:1200)
+                                                        </div>
+                                                    </div>
+                                                    <div class="col mb-3">
+                                                        <label for="EndDate" class="form-label">End Date</label>
+                                                        <input type="text" class="form-control" id="EndDate"
+                                                               name="EndDate" value="{{timestamps[k][i][4]}}" required>
+                                                    </div>
+                                                    <div class="col mb-3">
+                                                        <label for="EndTime" class="form-label">End Time</label>
+                                                        <input type="number" class="form-control" id="EndTime" required
+                                                               placeholder="1200" value="{{timestamps[k][i][5]}}"
+                                                               aria-describedby="StartTimeHelp" name="EndTime"
+                                                               max="2359">
+                                                        <div id="EndTimeHelp" class="form-text">Use 24hr format without
+                                                            : (eg:1200)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary" name="Save">Save
+                                                        changes
+                                                    </button>
+                                                    <button type="submit" class="btn btn-danger" name="Delete">DELETE
+                                                    </button>
+
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
 
 
+                                    {% else %}
+                                    <td onclick="autofill('{{i}}','{{k}}')"></td>
+                                    {% endif %}
 
-                        {% else %}
-                        <td onclick="autofill('{{i}}','{{k}}')"></td>
-                        {% endif %}
+                                    {% endfor %}
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
 
-                        {% endfor %}
-                    </tr>
-                  {% endfor %}
-                  </tbody>
-            </table>
+
+                </div>
+            </div>
+
+            <div class="tab-pane fade show active" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                 tabindex="0">
+                <div class="row">
+
+                    <div class="col-6" style="  position: -webkit-sticky; /* Safari */
+  position: sticky; top:0; background:white">
+                        <p class="display-6" id="ContainerHeader">{{data['name']}}</p>
+                        <p class="display-6" id="ContainerHeader">Start: {{data['StartDate']}} {{data['StartTime']}}</p>
+                        <p class="display-6" id="ContainerHeader">End: {{data['EndDate']}} {{data['EndTime']}}</p>
+                    </div>
+                    <div class="col-6 " style="  position: -webkit-sticky; /* Safari */
+  position: sticky; top:0; background:white">
+                        <form action="" method="post" class="row g-3" target="frame">
+
+                            <div class="col mb-3">
+                                <label for="UserRole" class="form-label">User Role</label>
+                                <select class="form-select" aria-label="UserRole" id="UserRole"
+                                        onchange="myFunction('main',0)" name="DP" required>
+                                    {% for i in dutypostsnames %}
+                                    <option value="{{i}}">{{i}}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-text">To create a new role click on this link</div>
+                            </div>
+
+                            <div class="col mb-3">
+                                <label for="StartDate" class="form-label">Start Date</label>
+                                <input type="text" class="form-control" id="StartDate" name="StartDate" required>
+                            </div>
+                            <div class="col mb-3">
+                                <label for="StartTime" class="form-label">Start Time</label>
+                                <input type="number" class="form-control" id="StartTime" required placeholder="1200"
+                                       aria-describedby="StartTimeHelp" name="StartTime">
+                                <div id="StartTimeHelp" class="form-text">Use 24hr format without : (eg:1200)</div>
+                            </div>
+                            <div class="col mb-3">
+                                <label for="EndDate" class="form-label">End Date</label>
+                                <input type="text" class="form-control" id="EndDate" name="EndDate" required>
+                            </div>
+                            <div class="col mb-3">
+                                <label for="EndTime" class="form-label">End Time</label>
+                                <input type="number" class="form-control" id="EndTime" required placeholder="1200"
+                                       aria-describedby="StartTimeHelp" name="EndTime" max="2359">
+                                <div id="EndTimeHelp" class="form-text">Use 24hr format without : (eg:1200)</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary mb-3">Add Duty</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12">
+
+                        <table class="table table-bordered">
+                            <thead style="  position: sticky;
+  top: 210px;
+  background-color: hsl(0, 0%, 100%);">
+                            <tr>
+                                <th scope="col" style="">Time</th>
+                                {{dutypostnames}}
+                                {% for i in dutypostsnames %}
+                                <th scope="col">{{i}}</th>
+                                {% endfor %}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for k in timestamps %}
+                            <tr>
+                                <th scope="row">{{k}}</th>
+                                {% for i in dutypostsnames %}
+                                {% if i in timestamps[k].keys() %}
+                                <td rowspan="{{timestamps[k][i][0]}}" class="table-info" align="center"
+                                    style="vertical-align: middle;">{{i}}
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal{{timestamps[k][i][1]}}">
+                                        {{timestamps[k]}}{{k}}
+                                        Launch demo modal
+                                    </button>
+                                </td>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal{{timestamps[k][i][1]}}" tabindex="-1"
+                                     aria-labelledby="exampleModalLabel{{timestamps[k][i][1]}}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5"
+                                                    id="exampleModalLabel{{timestamps[k][i][1]}}">Edit Chunk</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <form method="post" action="/UpdateChunk/{{id}}">
+
+                                                <div class="modal-body">
+                                                    <input type="text" class="form-control" id="ChunkId" name="ChunkId"
+                                                           value="{{timestamps[k][i][1]}}" required>
+
+                                                    <div class="col mb-3">
+                                                        <label for="StartDate" class="form-label">Start Date</label>
+                                                        <input type="text" class="form-control" id="StartDate"
+                                                               name="StartDate" value="{{timestamps[k][i][2]}}"
+                                                               required>
+                                                    </div>
+                                                    <div class="col mb-3">
+                                                        <label for="StartTime" class="form-label">Start Time</label>
+                                                        <input type="number" class="form-control"
+                                                               value="{{timestamps[k][i][3]}}" id="StartTime" required
+                                                               placeholder="1200" aria-describedby="StartTimeHelp"
+                                                               name="StartTime">
+                                                        <div id="StartTimeHelp" class="form-text">Use 24hr format
+                                                            without : (eg:1200)
+                                                        </div>
+                                                    </div>
+                                                    <div class="col mb-3">
+                                                        <label for="EndDate" class="form-label">End Date</label>
+                                                        <input type="text" class="form-control" id="EndDate"
+                                                               name="EndDate" value="{{timestamps[k][i][4]}}" required>
+                                                    </div>
+                                                    <div class="col mb-3">
+                                                        <label for="EndTime" class="form-label">End Time</label>
+                                                        <input type="number" class="form-control" id="EndTime" required
+                                                               placeholder="1200" value="{{timestamps[k][i][5]}}"
+                                                               aria-describedby="StartTimeHelp" name="EndTime"
+                                                               max="2359">
+                                                        <div id="EndTimeHelp" class="form-text">Use 24hr format without
+                                                            : (eg:1200)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary" name="Save">Save
+                                                        changes
+                                                    </button>
+                                                    <button type="submit" class="btn btn-danger" name="Delete">DELETE
+                                                    </button>
+
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+
+
+                                    {% else %}
+                                    <td onclick="autofill('{{i}}','{{k}}')"></td>
+                                    {% endif %}
+
+                                    {% endfor %}
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
         </div>
-<!--        <div class="col-3">-->
 
-<!--        </div>-->
+        <iframe style="display:none" name="frame"></iframe>
+        <script>
+            let flipflop=0
+            function autofill(role,time){
 
-    </div>
-</div>
-<iframe style="display:none" name="frame"></iframe>
-<script>
-let flipflop=0
-function autofill(role,time){
-
-if (flipflop==0){
-console.log(0)
-document.getElementById('UserRole').value=role
-document.getElementById('StartDate').value=time.substring(0, 6)
-document.getElementById('StartTime').value=time.substring(7)
+            if (flipflop==0){
+            console.log(0)
+            document.getElementById('UserRole').value=role
+            document.getElementById('StartDate').value=time.substring(0, 6)
+            document.getElementById('StartTime').value=time.substring(7)
 
 
-flipflop=1
+            flipflop=1
 
-}
-else {
-document.getElementById('UserRole').value=role
-document.getElementById('EndDate').value=time.substring(0, 6)
-document.getElementById('EndTime').value=time.substring(7)
+            }
+            else {
+            document.getElementById('UserRole').value=role
+            document.getElementById('EndDate').value=time.substring(0, 6)
+            document.getElementById('EndTime').value=time.substring(7)
 
-flipflop=0
-}
-}
+            flipflop=0
+            }
+            }
 
-</script>
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
+        </script>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
+        </button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 </body>
 </html>

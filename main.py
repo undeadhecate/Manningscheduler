@@ -235,7 +235,7 @@ def createmanning():
 
         mycol = mydb["Manning"]
 
-        mydict = {"name": request.form['Name'],"StartDate": request.form['StartDate'],"StartTime": request.form['StartTime'],"EndDate": request.form['EndTime'],"Data":{}}
+        mydict = {"name": request.form['Name'],"StartDate": request.form['StartDate'],"StartTime": request.form['StartTime'],"EndDate": request.form['EndDate'],"EndTime": request.form['EndTime'],"Data":[]}
 
         x = mycol.insert_one(mydict)
         return redirect(url_for('ManageManning'))
@@ -367,7 +367,52 @@ def ViewManning(id):
         timestamps[selector]=olddata
 
     print(timestamps)
-    return render_template('ViewManning.html',data=data,dutypostsnames=dutypostsnames,timestamps=timestamps)
+    return render_template('ViewManning.html',data=data,dutypostsnames=dutypostsnames,timestamps=timestamps,id=id)
+
+@app.route('/UpdateChunk/<manningid>',methods=["POST"])
+def UpdateChunk(manningid):
+    save=False
+    delete=False
+    try:
+        request.form['Save']
+        save=True
+    except:
+        try:
+            request.form['Delete']
+            delete=True
+
+        except:
+            pass
+
+
+
+    mycol = mydb["Manning"]
+
+    x = mycol.find_one({"_id":ObjectId(str(manningid))})
+    counter=0
+    if save==True or delete==True:
+        for i in x['Data']:
+
+            if i['uid']==request.form['ChunkId']:
+                templist=i
+                x['Data'].pop(counter)
+                break
+            counter+=1
+    if save==True:
+        templist["StartDate"]=request.form['StartDate']
+        templist["StartTime"]=request.form['StartTime']
+        templist["EndDate"]=request.form['EndDate']
+        templist["EndTime"]=request.form['EndTime']
+        x['Data'].append(templist)
+
+    if save==True or delete==True:
+        myquery = {"_id":ObjectId(str(manningid))}
+        newvalues = {"$set" : x}
+        mycol.update_one(myquery, newvalues)
+
+    return redirect(url_for("ViewManning",id=manningid))
+
+
 
 if __name__ == '__main__':
 
