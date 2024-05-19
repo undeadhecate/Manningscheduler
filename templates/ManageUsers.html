@@ -24,7 +24,7 @@
 
                   <div class="mb-3">
                     <label for="UserRole" class="form-label">User Role</label>
-                    <select class="form-select" aria-label="UserRole" id="UserRole" onchange="myFunction()" name="Role" required>
+                    <select class="form-select" aria-label="UserRole" id="UserRole" onchange="myFunction('main',0)" name="Role" required>
                         {% for i in roles %}
                         <option value="{{roles[i][1]}}" >{{i}}</option>
                         {% endfor %}
@@ -43,8 +43,8 @@
                     {% for key in RestrictionsAvailable %}
 
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" role="switch" id="{{RestrictionsAvailable[key]}}" name="{{RestrictionsAvailable[key]}}">
-                      <label class="form-check-label" for="{{RestrictionsAvailable[key]}}">{{key}}</label>
+                      <input class="form-check-input" type="checkbox" role="switch" id="{{RestrictionsAvailable[key]}}" loopcount="0" name="{{RestrictionsAvailable[key]}}">
+                      <label class="form-check-label" for="{{RestrictionsAvailable[key]}}" loopcount="0">{{key}}</label>
                     </div>
                       {% endfor %}
                   </div>
@@ -62,45 +62,61 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for key, value in users.items() %}
+                {% for value in users %}
                     <tr>
                         <th scope="row">{{loop.index}}</th>
-                        <td>{{key}}</td>
+                        <td>{{value['name']}}</td>
                         <td>
                             <!-- Call to action buttons -->
                             <ul class="list-inline m-0">
                                 <li class="list-inline-item">
-                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" data-bs-toggle="modal" data-bs-target="#exampleModal{{key}}"><img class="tableicons" src="{{url_for('static',filename='icons/eye.png') }}"></button>
+                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit" data-bs-toggle="modal" data-bs-target="#exampleModal{{value['_id']}}"><img class="tableicons" src="{{url_for('static',filename='icons/eye.png') }}"></button>
                                 </li>
-                                <div class="modal fade" id="exampleModal{{key}}" tabindex="-1" aria-labelledby="exampleModalLabel{{key}}" aria-hidden="true">
+                                <div class="modal fade" id="exampleModal{{value['_id']}}" tabindex="-1" aria-labelledby="exampleModalLabel{{value['_id']}}" aria-hidden="true">
                                   <div class="modal-dialog">
                                     <div class="modal-content">
                                       <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel{{key}}">Edit Role</h1>
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel{{value['_id']}}">Edit Role</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                       </div>
-                                      <form method="POST" action="/EditRoles">
+                                      <form method="POST" action="/EditUser">
                                       <div class="modal-body">
 
                                               <div class="mb-3">
                                                 <label for="RoleName" class="form-label">Name</label>
-                                                <input type="text" class="form-control" id="OldRoleName" name="OldRoleName" value="{{key}}" style="display:none" required>
-                                                <input type="text" class="form-control" id="RoleName" name="RoleName" value="{{key}}" required>
+                                                <input type="text" class="form-control" id="OldRoleName" name="OldUserName" value="{{value['_id']}}" style="display:none" required>
+                                                <input type="text" class="form-control" id="RoleName" name="Username" value="{{value['name']}}" required>
 
                                               </div>
 
-                                              <div class="mb-3">
-                                                <p class="display-6" id="switchlabel">User Restrictions</p>
-                                                    {% for key in RestrictionsAvailable %}
+                  <div class="mb-3">
+                    <label for="UserRole{{loop.index}}" class="form-label">User Role</label>
+                    <select class="form-select" aria-label="UserRole{{loop.index}}" id="UserRole{{loop.index}}" onchange="myFunction('modal',{{loop.index}})" name="Role" required>
+                        {% for i in roles %}
+                        <option {% if  value['role']==roles[i][1] %} selected {% endif %} value="{{roles[i][1]}}" >{{i}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-text">To create a new role click on this link</div>
+                  </div>
 
-                                                    <div class="form-check form-switch">
-                                                      <input class="form-check-input" type="checkbox" role="switch" id="{{RestrictionsAvailable[key]}}" name="{{RestrictionsAvailable[key]}}"  {% if RestrictionsAvailable[key]|string in value %} checked {% endif %}>
-                                                      <label class="form-check-label" for="{{RestrictionsAvailable[key]}}">{{key}}</label>
-                                                    </div>
-                                                      {% endfor %}
+                  <div class="mb-3 input-group">
+                    <label for="UserContact" class="form-label input-group">PhoneNumber</label>
+                    <span class="input-group-text">+65</span>
+                    <input type="tel" class="form-control" id="UserContact" name="contact" value="{{value['contact']}}" required>
+                  </div>
 
-                                              </div>
+                  <div class="mb-3" id="UserRestrictionsSection">
+                    <p class="display-6" id="switchlabel" >User Restrictions</p>
+                          {% set outer_loop = loop %}
 
+                    {% for key in RestrictionsAvailable %}
+
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="{{RestrictionsAvailable[key]}}"loopcount='{{outer_loop.index}}' name="{{RestrictionsAvailable[key]}}" {% if  RestrictionsAvailable[key] in value['restrictions'] %} checked {% endif %}>
+                      <label class="form-check-label" for="{{RestrictionsAvailable[key]}}" loopcount='{{outer_loop.index}}'>{{key}}</label>
+                    </div>
+                      {% endfor %}
+                  </div>
 
 
                                       </div>
@@ -136,8 +152,17 @@
     var RestrictionsAvailable={{RestrictionsAvailable|safe}}
     var switchestoon = [];
 
-    function myFunction() {
+    function myFunction(location,counter) {
+    console.log(location,counter)
+    if (location=="main"){
+
         var roleid = document.getElementById('UserRole').value;
+        }
+     else if (location=='modal'){
+         var roleid = document.getElementById('UserRole'+counter).value;
+        }
+        console.log(roleid,location,counter)
+
         for (let i = 0; i < Object.keys(roles).length; i++) {
             if (roleid == roles[Object.keys(roles)[i]][1]) {
                 switchestoon = roles[Object.keys(roles)[i]][0];
@@ -146,10 +171,12 @@
         }
 
         for (let i = 0; i < document.getElementsByClassName("form-check-input").length; i++) {
-            if (switchestoon.includes(document.getElementsByClassName("form-check-input")[i].name.toString()) ) {
+            console.log(document.getElementsByClassName("form-check-input")[i])
+            if (switchestoon.includes(document.getElementsByClassName("form-check-input")[i].name.toString()) && (document.getElementsByClassName("form-check-input")[i].getAttribute("loopcount")==counter ) ) {
                 document.getElementsByClassName("form-check-input")[i].checked = true
 
-            } else {
+            }
+            else if (document.getElementsByClassName("form-check-input")[i].getAttribute("loopcount")==counter ) {
                 document.getElementsByClassName("form-check-input")[i].checked = false
             }
         }

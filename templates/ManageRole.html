@@ -80,8 +80,8 @@
                                                     {% for key in RestrictionsAvailable %}
 
                                                     <div class="form-check form-switch">
-                                                      <input class="form-check-input" type="checkbox" role="switch" id="{{RestrictionsAvailable[key]}}" name="{{RestrictionsAvailable[key]}}"  {% if RestrictionsAvailable[key]|string in value %} checked {% endif %}>
-                                                      <label class="form-check-label" for="{{RestrictionsAvailable[key]}}">{{key}}</label>
+                                                      <input class="form-check-input" type="checkbox" role="switch" id="{{RestrictionsAvailable[key]}}{{loop.index}}" name="{{RestrictionsAvailable[key]}}"  {% if RestrictionsAvailable[key]|string in value %} checked {% endif %}>
+                                                      <label class="form-check-label" for="{{RestrictionsAvailable[key]}}{{loop.index}}">{{key}}</label>
                                                     </div>
                                                       {% endfor %}
 
