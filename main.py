@@ -3,7 +3,8 @@ import pymongo
 from bson import ObjectId
 from dateutil import relativedelta
 from datetime import datetime,timedelta
-import uuid
+import uuid,random,copy,json
+import numpy as np
 app = Flask(__name__)
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -164,6 +165,8 @@ def manageuser():
                 userdetails['role']=i[1]
             elif counter==2:
                 userdetails['contact']=i[1]
+            elif counter == 3:
+                userdetails['standgatepri'] = i[1]
             else:
                 restrictions.append(i[0])
             counter+=1
@@ -210,6 +213,8 @@ def edituser():
             userdetails['role'] = i[1]
         elif counter == 3 :
             userdetails['contact'] = i[1]
+        elif counter == 4 :
+            userdetails['standgatepri'] = i[1]
         else :
             restrictions.append(i[0])
         counter += 1
@@ -315,14 +320,14 @@ def ManageManning():
 
     return render_template('ManageManning.html',manningdata=manning)
 
-@app.route('/ViewManning/<id>',methods=["POST","GET"])
+@app.route('/ViewManning/ManageDuties/<id>',methods=["POST","GET"])
 def ViewManning(id):
     mycol = mydb["Manning"]
 
-
+    hoursrequired=0
     if request.method=="POST":
         x = mycol.find_one({"_id":ObjectId(str(id))})
-        templist= {"DP": request.form['DP'],"StartDate": request.form['StartDate'],"StartTime": request.form['StartTime'],"EndDate": request.form['EndDate'],"EndTime": request.form['EndTime'],'uid':str(uuid.uuid4())}
+        templist= {"DP": request.form['DP'],"StartDate": request.form['StartDate'],"StartTime": request.form['StartTime'],"EndDate": request.form['EndDate'],"EndTime": request.form['EndTime'],'uid':str(uuid.uuid4()),"person":""}
         x['Data'].append(templist)
         myquery = {"_id":ObjectId(str(id))}
         newvalues = {"$set" : x}
@@ -344,12 +349,40 @@ def ViewManning(id):
     hours+=difference.hours+1
 
     timestamps={}
+    odddatetimes=[]
+    for i in data['Data']:
+        if i['StartTime'][2:]!='00' and (i['StartDate']+" "+i['StartTime']) not in odddatetimes:
+            odddatetimes.append( (i['StartDate']+" "+i['StartTime']))
+        if i['EndTime'][2:]!='00'and (i['EndDate']+" "+i['EndTime']) not in odddatetimes:
+            odddatetimes.append( (i['EndDate']+" "+i['EndTime']))
+
+    updatedodddatetimes=[]
+    odddatetimes.sort()
+    for i in odddatetimes:
+        updatedodddatetimes.append(datetime.strptime(i, "%d%m%y %H%M"))
+
+
     for i in range(hours):
+
+        if len(updatedodddatetimes)>0:
+            while 1:
+                if len(updatedodddatetimes)==0:
+                    break
+                diff=relativedelta.relativedelta( (date1+timedelta(hours=i)),updatedodddatetimes[0])
+                if diff.minutes + (diff.hours*60)>0:
+                    timestamps[(updatedodddatetimes[0].strftime("%d%m%y %H%M") )] = {}
+                    updatedodddatetimes.pop(0)
+                else:
+                    break
+
         timestamps[((date1+timedelta(hours=i)).strftime("%d%m%y %H%M") )]={}
+
 
     mycol = mydb["DutyPosts"]
     dutyposts=mycol.find()
     dutypostsnames=[]
+    listoftimestamps=timestamps.keys()
+    listoftimestamps=list(listoftimestamps)
     for i in dutyposts:
         dutypostsnames.append(i['name'])
     for i in data['Data']:
@@ -361,13 +394,34 @@ def ViewManning(id):
         difference = relativedelta.relativedelta(date2, date1)
         hours = difference.days * 24
         hours += difference.hours
+        hours +=difference.minutes/60
+        hoursrequired+=hours
+        hours=listoftimestamps.index(i['EndDate'] + " " + i["EndTime"]) - listoftimestamps.index(
+            i['StartDate'] + " " + i["StartTime"])
+        if hours==0:
+            hours=1
+        startindex=listoftimestamps.index(selector)
+        for z in range(hours):
+            newdata=timestamps[listoftimestamps[startindex+z]]
+            newdata[i['DP']] = ["voiditem"]
+            timestamps[listoftimestamps[startindex+z]] = newdata
 
-        olddata[i['DP']]=[hours,i['uid'],i['StartDate'],i["StartTime"],i['EndDate'],i["EndTime"],]
-        print(olddata)
+        olddata[i['DP']]=[listoftimestamps.index(i['EndDate']+" "+i["EndTime"])-listoftimestamps.index(i['StartDate']+" "+i["StartTime"]),i['uid'],i['StartDate'],i["StartTime"],i['EndDate'],i["EndTime"],i['person']]
         timestamps[selector]=olddata
 
-    print(timestamps)
-    return render_template('ViewManning.html',data=data,dutypostsnames=dutypostsnames,timestamps=timestamps,id=id)
+
+
+    print(data['cannotstand'])
+
+    mycol=mydb['Users']
+    userdata=[]
+    for x in mycol.find() :
+        userdata.append(x)
+
+
+
+
+    return render_template('ViewManning.html',cannotstandlist=data['cannotstand'],data=data,dutypostsnames=dutypostsnames,timestamps=timestamps,id=id,userdata=userdata,hoursrequired=hoursrequired)
 
 @app.route('/UpdateChunk/<manningid>',methods=["POST"])
 def UpdateChunk(manningid):
@@ -412,6 +466,123 @@ def UpdateChunk(manningid):
 
     return redirect(url_for("ViewManning",id=manningid))
 
+
+@app.route('/AssignUserToChunk/<manningid>',methods=["POST"])
+def AssignUserToChunk(manningid):
+    print(request.form['ChunkId'])
+    print(request.form['fixedtrooper'])
+
+    mycol = mydb["Manning"]
+    x = mycol.find_one({"_id":ObjectId(str(manningid))})
+    counter=0
+    for i in x['Data']:
+        if i['uid']==request.form['ChunkId']:
+            newdata=i
+            print(newdata)
+            newdata['fixedtrooper']=request.form['fixedtrooper']
+            break
+        counter+=1
+    myquery = {"_id" : ObjectId(str(manningid))}
+    newvalues = {"$set" : x}
+    mycol.update_one(myquery, newvalues)
+    return '123'
+
+@app.route('/compute',methods=["POST"])
+def Compute():
+
+    premanning={}
+    mycol = mydb["Manning"]
+
+    x = mycol.find_one({"_id":ObjectId(str(json.loads(request.data.decode())['id']))})
+
+    mycol = mydb["Users"]
+    userlist=[]
+    y = mycol.find()
+    for i in y:
+        userlist.append(i)
+    counter=0
+    print(x['Data'])
+
+    # for i in x['Data']:
+    #     templist=i
+    #     tempuserlist=userlist
+    #     while 1:
+    #         breakout=True
+    #         person = tempuserlist[random.randint(0, len(tempuserlist) - 1)]['name']
+    #         for k in biggertemplist:
+    #             if k['person']==person and (abs(find_time_diff(k['EndDate'],k['EndTime'],i['StartDate'],i['StartTime']))<6 or (i['StartDate'],i['StartTime'])==(k['StartDate'],k['StartTime']) or (abs(find_time_diff(i['EndDate'],i['EndTime'],k['StartDate'],k['StartTime']))<6)):
+    #                 print(abs(find_time_diff(k['EndDate'],k['EndTime'],i['StartDate'],i['StartTime'])),'invalid', (i['StartDate'],i['StartTime'])==(k['StartDate'],k['StartTime']))
+    #                 breakout=False
+    #         if breakout==True:
+    #             print(person,i)
+    #             break
+    #     templist['person'] = person
+    #     biggertemplist.append(templist)
+    tempuserlist=[]
+    for i in userlist:
+        if str(i['_id']) not in json.loads(request.data.decode())['cannotstand']:
+            tempuserlist.append(i)
+    userlist=tempuserlist
+
+    print(userlist)
+    while 1:
+        Data=computingthing(x, userlist)
+        if Data!=False:
+            x["Data"] =Data
+            break
+
+    x['cannotstand']=json.loads(request.data.decode())['cannotstand']
+    myquery = {"_id":ObjectId(str(json.loads(request.data.decode())['id']))}
+
+    mycol = mydb["Manning"]
+    mycol.update_one(myquery,{ "$set": x })
+
+    print('done')
+    return  redirect(url_for("ViewManning",id=str(json.loads(request.data.decode())['id'])))
+
+
+def find_time_diff(StartDate,StartTime,EndDate,EndTime):
+    date1 = datetime.strptime(StartDate + " " + StartTime, "%d%m%y %H%M")
+    date2 = datetime.strptime(EndDate + " " + EndTime, "%d%m%y %H%M")
+    # Calculate the difference between the two dates
+    difference = relativedelta.relativedelta(date2, date1).hours
+    return difference
+
+
+def computingthing(dataset,userlist):
+    print('trying')
+    print(dataset)
+    tempdict=dataset['Data']
+
+    sortedlist = sorted(tempdict, key=lambda elem : "%46s%24s%02s%04s" % (
+    elem['StartDate'], elem['StartDate'], elem['StartDate'], elem['StartTime']))
+    dataset['Data']=sortedlist
+    x=dataset
+    biggertemplist=[]
+
+    backuplist=userlist
+
+    for i in x['Data']:
+        templist=i
+        tempuserlist=copy.deepcopy(userlist)
+        
+        while 1:
+            breakout=True
+            randomnumber=random.randint(0, len(tempuserlist) - 1)
+            person = tempuserlist[randomnumber]['name']
+            tempuserlist.pop(randomnumber)
+
+            for k in biggertemplist:
+                if k['person']==person and (abs(find_time_diff(k['EndDate'],k['EndTime'],i['StartDate'],i['StartTime']))<find_time_diff(k['StartDate'],k['StartTime'],k['EndDate'],k['EndTime']) or (i['StartDate'],i['StartTime'])==(k['StartDate'],k['StartTime']) or (abs(find_time_diff(i['EndDate'],i['EndTime'],k['StartDate'],k['StartTime']))<(abs(find_time_diff(k['StartDate'],k['StartTime'],k['EndDate'],k['EndTime']))))):
+                    breakout=False
+            if breakout==True:
+                break
+            if len(tempuserlist)==0:
+                return False
+
+        templist['person'] = person
+        biggertemplist.append(templist)
+    return biggertemplist
 
 
 if __name__ == '__main__':
